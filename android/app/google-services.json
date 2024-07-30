@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "572928018005",
+    "project_id": "develpoment-2023",
+    "storage_bucket": "develpoment-2023.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:572928018005:android:3b740bc4ebe4e3cd2eb6dc",
+        "android_client_info": {
+          "package_name": "com.edynamics.mera_neta"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1GK44HeCsjerTf4UhId_ZrQc8Ti0aDCM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:572928018005:android:00af27f8fc208ebc2eb6dc",
+        "android_client_info": {
+          "package_name": "com.example.chatapp_two"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1GK44HeCsjerTf4UhId_ZrQc8Ti0aDCM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
