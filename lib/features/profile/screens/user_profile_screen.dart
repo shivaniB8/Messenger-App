@@ -1,7 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
-import 'package:chatapp_two/common/enum/message.dart';
 import 'package:chatapp_two/common/models/user.dart';
 import 'package:chatapp_two/common/repositories/storage.dart';
 import 'package:chatapp_two/common/res/app_bottomsheets.dart';
@@ -10,7 +8,6 @@ import 'package:chatapp_two/common/util/constants.dart';
 import 'package:chatapp_two/common/util/ext.dart';
 import 'package:chatapp_two/common/util/file_picker.dart';
 import 'package:chatapp_two/common/util/misc.dart';
-import 'package:chatapp_two/common/widgets/avatar.dart';
 import 'package:chatapp_two/common/widgets/profile_avatar.dart';
 import 'package:chatapp_two/common/widgets/profile_edit_textfield_widget.dart';
 import 'package:chatapp_two/features/profile/controller/user_profile_controller.dart';
@@ -21,9 +18,6 @@ import 'package:chatapp_two/features/profile/widgets/user_profile_textfield_widg
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fpdart/fpdart.dart';
-import 'package:qr_flutter/qr_flutter.dart';
-import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 
 class UserProfileScreen extends ConsumerStatefulWidget {
   const UserProfileScreen({super.key});
@@ -63,6 +57,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                 const Spacer(),
                 IconButton(
                     onPressed: () {
+                      // String qrData =
+                      //     "$uid, $name, Indian, Male, [1, 1, 1, 1, 1, 1]";
                       Map<String, dynamic> qrData = {
                         "id": uid,
                         "name": name,
@@ -70,6 +66,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                         "gender": "Male",
                         "documents": [1, 1, 1, 1, 1, 1]
                       };
+                      log("length >? ${qrData.toString().length}");
                       AppBottomSheet.show(
                           backgroundColor: kLightBgColor,
                           context: context,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chatapp_two/common/theme.dart';
-import 'package:chatapp_two/common/util/constants.dart';
 
 class UserProfileScaffold extends ConsumerWidget {
   final PreferredSizeWidget appBar;

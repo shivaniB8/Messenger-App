@@ -1,8 +1,10 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:chatapp_two/common/res/app_functions.dart';
 import 'package:chatapp_two/common/res/app_styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chatapp_two/common/theme.dart';
 import 'package:chatapp_two/common/util/constants.dart';
@@ -11,6 +13,7 @@ import 'package:chatapp_two/features/call/widgets/call_list.dart';
 import 'package:chatapp_two/features/home/widgets/chat_list.dart';
 import 'package:chatapp_two/features/status/widgets/status_list.dart';
 import 'package:chatapp_two/router.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -38,7 +41,7 @@ class _HomePageState extends ConsumerState<HomePage>
 
   @override
   Widget build(BuildContext context) {
-    // final themeMode = ref.watch(themeNotifierProvider);
+    final themeMode = ref.watch(themeNotifierProvider);
     return DefaultTabController(
       length: controller.length,
       child: Scaffold(
@@ -77,25 +80,35 @@ class _HomePageState extends ConsumerState<HomePage>
           ),
           actions: [
             // theme switcher
-            // IconButton(
-            //   splashRadius: kDefaultSplashRadius,
-            //   onPressed: () {
-            //     ref.read(themeNotifierProvider.notifier).toggle();
-            //   },
-            //   icon: themeMode == Brightness.light
-            //       ? Icon(
-            //           Icons.nightlight_outlined,
-            //           color: kAppBarActionIconColor,
-            //         )
-            //       : Icon(
-            //           Icons.wb_sunny_outlined,
-            //           color: kAppBarActionIconColor,
-            //         ),
-            // ),
+            IconButton(
+              splashRadius: kDefaultSplashRadius,
+              onPressed: () {
+                ref.read(themeNotifierProvider.notifier).toggle();
+              },
+              icon: themeMode == Brightness.light
+                  ? Icon(
+                      Icons.nightlight_outlined,
+                      color: kAppBarActionIconColor,
+                    )
+                  : Icon(
+                      Icons.wb_sunny_outlined,
+                      color: kAppBarActionIconColor,
+                    ),
+            ),
 
             IconButton(
-                onPressed: () {
-
+                onPressed: () async {
+                  String? cameraScanResult = await scanner.scan();
+                  Map<String, dynamic> mapScanResult =
+                      jsonDecode(cameraScanResult ?? "");
+                  log("cameraScanResult > $cameraScanResult");
+                  Navigator.pushNamed(context, PageRouter.qrDetailsScreen,
+                      arguments: {
+                        "name": mapScanResult["name"],
+                        "resident": mapScanResult["resident"],
+                        "gender": mapScanResult["gender"],
+                        "documents": mapScanResult["documents"],
+                      });
                 },
                 icon: const Icon(CupertinoIcons.qrcode_viewfinder)),
 
@@ -108,7 +121,7 @@ class _HomePageState extends ConsumerState<HomePage>
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6),
                       border: Border.all(
-                          color: Colors.black54,
+                          color: Colors.white54,
                           strokeAlign: BorderSide.strokeAlignOutside)),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

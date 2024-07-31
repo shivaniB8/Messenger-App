@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:chatapp_two/features/profile/screens/profile_screen.dart';
 import 'package:chatapp_two/features/profile/screens/user_profile_screen.dart';
+import 'package:chatapp_two/features/qr/screens/qr_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:chatapp_two/common/models/call.dart';
 import 'package:chatapp_two/common/models/status.dart';
@@ -34,6 +35,7 @@ class PageRouter {
   static const String call = "/call";
   static const String profile = "/profile";
   static const String userProfile = "/user-profile";
+  static const String qrDetailsScreen = "/qr-details-screen";
 
   static Route<Widget> generateRoutes(RouteSettings settings) {
     AppLogger.getLogger((PageRouter).toString())
@@ -91,6 +93,13 @@ class PageRouter {
       case userProfile:
         // final args = settings.arguments as Map<String, dynamic>;
         return _createRoute(const UserProfileScreen());
+      case qrDetailsScreen:
+        final args = settings.arguments as Map<String, dynamic>;
+        return _createRoute(QrDetailsScreen(
+            name: args['name'] as String,
+            resident: args['resident'] as String,
+            gender: args['gender'] as String,
+            documents: args['documents'] as List<String>));
 
       default:
         return _createRoute(UnknownRoutePage(targetRoute: settings.name!));
