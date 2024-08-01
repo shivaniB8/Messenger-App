@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:chatapp_two/common/models/bharat_id.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -167,6 +168,17 @@ class UserRepository {
         .withConverter<ChatModel>(
           fromFirestore: (snapshot, _) => ChatModel.fromMap(snapshot.data()!),
           toFirestore: (chat, _) => chat.toMap(),
+        );
+  }
+
+  CollectionReference<BharatIdModel> bharatIds(String userId) {
+    return users
+        .doc(userId)
+        .collection(kUsersBharatIDsCollectionId)
+        .withConverter<BharatIdModel>(
+          fromFirestore: (snapshot, _) =>
+              BharatIdModel.fromMap(snapshot.data()!),
+          toFirestore: (ids, _) => ids.toMap(),
         );
   }
 

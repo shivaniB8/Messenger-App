@@ -114,7 +114,9 @@ class _HomePageState extends ConsumerState<HomePage>
 
             IconButton(
               splashRadius: kDefaultSplashRadius,
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushNamed(context, PageRouter.idsListScreen);
+              },
               icon: Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 6, vertical: 2),

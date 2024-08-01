@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:chatapp_two/features/ids/screens/my_ids.dart';
 import 'package:chatapp_two/features/profile/screens/profile_screen.dart';
 import 'package:chatapp_two/features/profile/screens/user_profile_screen.dart';
 import 'package:chatapp_two/features/qr/screens/qr_details_screen.dart';
@@ -36,6 +37,7 @@ class PageRouter {
   static const String profile = "/profile";
   static const String userProfile = "/user-profile";
   static const String qrDetailsScreen = "/qr-details-screen";
+  static const String idsListScreen = "/ids-list-screen";
 
   static Route<Widget> generateRoutes(RouteSettings settings) {
     AppLogger.getLogger((PageRouter).toString())
@@ -93,6 +95,10 @@ class PageRouter {
       case userProfile:
         // final args = settings.arguments as Map<String, dynamic>;
         return _createRoute(const UserProfileScreen());
+      case idsListScreen:
+        // final args = settings.arguments as Map<String, dynamic>;
+        return _createRoute(const MyIdsScreen());
+
       case qrDetailsScreen:
         final args = settings.arguments as Map<String, dynamic>;
         return _createRoute(QrDetailsScreen(
