@@ -8,6 +8,7 @@ import 'package:chatapp_two/common/util/constants.dart';
 import 'package:chatapp_two/common/util/ext.dart';
 import 'package:chatapp_two/common/util/file_picker.dart';
 import 'package:chatapp_two/common/util/misc.dart';
+import 'package:chatapp_two/common/widgets/loader.dart';
 import 'package:chatapp_two/common/widgets/profile_avatar.dart';
 import 'package:chatapp_two/common/widgets/profile_edit_textfield_widget.dart';
 import 'package:chatapp_two/features/profile/controller/user_profile_controller.dart';
@@ -33,6 +34,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
   String profileImageFromFirebase = "";
   String about = "";
   File? selectedImage;
+  bool _showLoading = false;
 
   final _nameController = TextEditingController();
   final _statusController = TextEditingController();
@@ -40,7 +42,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
   @override
   void initState() {
     super.initState();
-    getDetailsFromFirebase();
+    getDetailsFromFirebase(false);
   }
 
   @override
@@ -68,6 +70,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                       };
                       log("length >? ${qrData.toString().length}");
                       AppBottomSheet.show(
+                          isDismissible: true,
                           backgroundColor: kLightBgColor,
                           context: context,
                           child: QrWidget(
@@ -81,8 +84,8 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                 ProfileAvatar(
                   image: profileImageFromFirebase,
                   isDark: isDark,
-                  onTapCamera: attachCamera,
-                  onTapGallery: attachGalleryImage,
+                  onTapCamera: () => attachCamera(isDark),
+                  onTapGallery: () => attachGalleryImage(isDark),
                 ),
                 const Spacer(),
               ],
@@ -97,7 +100,9 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                 leadingIcon: CupertinoIcons.person,
                 isEdit: true,
                 onEditTap: () {
+                  _nameController.text = name;
                   AppBottomSheet.show(
+                      isDismissible: true,
                       backgroundColor: isDark ? kDarkBgColor : kLightBgColor,
                       context: context,
                       child: ProfileEditTextFieldWidget(
@@ -116,7 +121,9 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                 leadingIcon: CupertinoIcons.info,
                 isEdit: true,
                 onEditTap: () {
+                  _statusController.text = about;
                   AppBottomSheet.show(
+                      isDismissible: true,
                       backgroundColor: isDark ? kDarkBgColor : kLightBgColor,
                       context: context,
                       child: ProfileEditTextFieldWidget(
@@ -142,7 +149,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
     );
   }
 
-  void getDetailsFromFirebase() async {
+  void getDetailsFromFirebase(bool isPop) async {
     UserModel? userModel =
         await ref.read(userProfileControllerProvider).getUserDetails();
     setState(() {
@@ -152,7 +159,9 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
       profileImageFromFirebase = userModel?.profileImage ?? "";
       about = userModel?.about ?? "";
     });
-
+    if (isPop) {
+      Navigator.of(context).pop();
+    }
     log("name $name");
     log("mobile $mobile");
     log("profileImage $profileImageFromFirebase");
@@ -164,10 +173,10 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
         profileImage: selectedImageUrl,
         status: status);
     await Future.delayed(const Duration(milliseconds: 1200));
-    getDetailsFromFirebase();
+    getDetailsFromFirebase(true);
   }
 
-  void attachGalleryImage() async {
+  void attachGalleryImage(isDark) async {
     final maybeImage = await FilePicker.pickFile(FilePickerSource.galleryImage)
         .whenComplete(() => Navigator.of(context).pop());
     if (maybeImage.isSome()) {
@@ -177,10 +186,19 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
     }
   }
 
-  void attachCamera() async {
+  void attachCamera(isDark) async {
     final image = await FilePicker.pickFile(FilePickerSource.camera)
         .whenComplete(() => Navigator.of(context).pop());
     if (image.isSome()) {
+      setState(() {
+        _showLoading = true;
+      });
+      AppBottomSheet.show(
+          context: context,
+          isDismissible: false,
+          child: Loader(),
+          backgroundColor: isDark ? kDarkBgColor : kLightBgColor);
+
       log("image from camera > $image");
       _saveFileToStorage(image.unwrap());
       // sendFile(image.unwrap(), MessageType.image);

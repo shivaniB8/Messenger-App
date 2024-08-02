@@ -51,6 +51,7 @@ class _MyIdsScreenState extends ConsumerState<MyIdsScreen> {
           // log("message :>>: $s");
           ///
           AppBottomSheet.show(
+              isDismissible: true,
               backgroundColor: isDark ? kDarkBgColor : kLightBgColor,
               context: context,
               child: ProfileEditTextFieldWidget(
@@ -77,8 +78,11 @@ class _MyIdsScreenState extends ConsumerState<MyIdsScreen> {
                   Text("Primary ID",
                       style: AppStyles.subTitleTextStyle(context)),
                   const SizedBox(height: 12),
-                  _idContainer(priId?.bharatId ?? "",
-                      priId?.status == 0 ? false : true, (v) {})
+                  _idContainer(
+                      type: priId?.type ?? 1,
+                      priId?.bharatId ?? "",
+                      priId?.status == 0 ? false : true,
+                      (v) {})
                 ],
               ),
             ),
@@ -98,6 +102,7 @@ class _MyIdsScreenState extends ConsumerState<MyIdsScreen> {
                       children: List.generate(
                           secIds.length,
                           (index) => _idContainer(
+                                type: secIds[index].type,
                                 secIds[index].bharatId,
                                 secIds[index].status == 0 ? false : true,
                                 (v) async {
@@ -127,7 +132,7 @@ class _MyIdsScreenState extends ConsumerState<MyIdsScreen> {
     );
   }
 
-  _idContainer(id, bool idValue, onChanged) => Row(
+  _idContainer(id, bool idValue, onChanged, {required int type}) => Row(
         children: [
           Expanded(
             child: SwitchListTile(
@@ -135,11 +140,13 @@ class _MyIdsScreenState extends ConsumerState<MyIdsScreen> {
               title: Text(id),
               value: idValue,
               onChanged: onChanged,
+              activeColor: (type == 1) ? Colors.white : null,
             ),
           ),
           IconButton(
               onPressed: () {
                 AppBottomSheet.show(
+                    isDismissible: true,
                     backgroundColor: kLightBgColor,
                     context: context,
                     child: QrWidget(
@@ -159,19 +166,19 @@ class _MyIdsScreenState extends ConsumerState<MyIdsScreen> {
         .get()
         .then((value) => value.docs.map((e) => e.data()).toList());
     log("list >> $list");
-    // TODO: sort here for primary ids and secondary ids...
+
     setState(() {
       secIds = list.where((element) => element.type == 2).toList();
       log("secIds > $secIds");
       List<BharatIdModel> primaryIdList =
           list.where((element) => element.type == 1).toList();
 
-      var s = ref
-          .read(userRepositoryProvider)
-          .bharatIds(getUserId(ref))
-          .doc(secIds[0].toString())
-          .path;
-      log("bharat document id >> $s");
+      // var s = ref
+      //     .read(userRepositoryProvider)
+      //     .bharatIds(getUserId(ref))
+      //     .doc(secIds[0].toString())
+      //     .path;
+      // log("bharat document id >> $s");
 
       if (primaryIdList.length == 1) {
         priId = primaryIdList.single;

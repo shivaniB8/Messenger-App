@@ -99,16 +99,17 @@ class _HomePageState extends ConsumerState<HomePage>
             IconButton(
                 onPressed: () async {
                   String? cameraScanResult = await scanner.scan();
-                  Map<String, dynamic> mapScanResult =
-                      jsonDecode(cameraScanResult ?? "");
                   log("cameraScanResult > $cameraScanResult");
-                  Navigator.pushNamed(context, PageRouter.qrDetailsScreen,
-                      arguments: {
-                        "name": mapScanResult["name"],
-                        "resident": mapScanResult["resident"],
-                        "gender": mapScanResult["gender"],
-                        "documents": mapScanResult["documents"],
-                      });
+                  // Map<String, dynamic> mapScanResult =
+                  //     jsonDecode(cameraScanResult ?? "");
+                  // log("cameraScanResult > $cameraScanResult");
+                  // Navigator.pushNamed(context, PageRouter.qrDetailsScreen,
+                  //     arguments: {
+                  //       "name": mapScanResult["name"],
+                  //       "resident": mapScanResult["resident"],
+                  //       "gender": mapScanResult["gender"],
+                  //       "documents": mapScanResult["documents"],
+                  //     });
                 },
                 icon: const Icon(CupertinoIcons.qrcode_viewfinder)),
 

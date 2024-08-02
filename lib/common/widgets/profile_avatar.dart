@@ -4,6 +4,7 @@ import 'package:chatapp_two/common/res/app_functions.dart';
 import 'package:chatapp_two/common/theme.dart';
 import 'package:chatapp_two/common/util/ext.dart';
 import 'package:chatapp_two/common/util/file_picker.dart';
+import 'package:chatapp_two/common/widgets/loader.dart';
 import 'package:chatapp_two/common/widgets/photo_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,8 @@ class ProfileAvatar extends StatelessWidget {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(55)),
             onPressed: () {
               AppBottomSheet.show(
-                  backgroundColor: Colors.transparent,
+                  isDismissible: true,
+                  backgroundColor: isDark ? kDarkBgColor : kLightBgColor,
                   context: context,
                   child: PhotoPickerWidget(
                     isDark: isDark,

@@ -5,8 +5,10 @@ class AppBottomSheet {
   static show(
           {required BuildContext context,
           required Widget child,
+          required bool isDismissible,
           required Color backgroundColor}) =>
       showModalBottomSheet(
+          isDismissible: isDismissible,
           context: context,
           isScrollControlled: true,
           backgroundColor: backgroundColor,

@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:chatapp_two/common/models/bharat_id.dart';
+import 'package:chatapp_two/features/ids/controller/ids_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +20,7 @@ import 'package:chatapp_two/common/repositories/storage.dart';
 import 'package:chatapp_two/common/util/constants.dart';
 import 'package:chatapp_two/common/util/ext.dart';
 import 'package:chatapp_two/common/util/logger.dart';
+import 'package:uuid/uuid.dart';
 
 final userRepositoryProvider = Provider((ref) {
   return UserRepository(
@@ -134,6 +136,25 @@ class UserRepository {
         isOnline: true,
       );
       _db.collection("users").doc(newUser.uid).set(newUser.toMap());
+      final bharatUuid = const Uuid().v4();
+      _db
+          .collection("users")
+          .doc(newUser.uid)
+          .collection(kUsersBharatIDsCollectionName)
+          .doc(bharatUuid)
+          .set(BharatIdModel(
+                  id: bharatUuid,
+                  bharatId: "${name.trim()}@bid".toLowerCase(),
+                  qr: "",
+                  type: 1,
+                  status: 1)
+              .toMap());
+      // _ref.read(idsControllerProvider).createBharatId(
+      //     context: context,
+      //     bharatId: _idTextController.text.trim(),
+      //     type: 2, // 2 = secondary id
+      //     status: 1 // 1 = active & 0= inactive
+      // );
       onSuccess();
     } on FirebaseAuthException catch (e) {
       onError(_mapError(e.code));
