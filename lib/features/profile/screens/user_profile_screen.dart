@@ -70,7 +70,11 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                       AppBottomSheet.show(
                           backgroundColor: kLightBgColor,
                           context: context,
-                          child: QrWidget(qrData: qrData.toString()));
+                          child: QrWidget(
+                            qrData: qrData.toString(),
+                            qrVersion: 10,
+                            bharatIdLabel: "",
+                          ));
                     },
                     icon: const Icon(CupertinoIcons.qrcode)),
                 const SizedBox(width: 6),
@@ -94,7 +98,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                 isEdit: true,
                 onEditTap: () {
                   AppBottomSheet.show(
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: isDark ? kDarkBgColor : kLightBgColor,
                       context: context,
                       child: ProfileEditTextFieldWidget(
                           onSave: () {
@@ -113,7 +117,7 @@ class _UserProfileScreenState extends ConsumerState<UserProfileScreen> {
                 isEdit: true,
                 onEditTap: () {
                   AppBottomSheet.show(
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: isDark ? kDarkBgColor : kLightBgColor,
                       context: context,
                       child: ProfileEditTextFieldWidget(
                           onSave: () {

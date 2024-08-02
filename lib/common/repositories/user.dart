@@ -172,9 +172,16 @@ class UserRepository {
   }
 
   CollectionReference<BharatIdModel> bharatIds(String userId) {
+    // log("bharatIds list   :::  ${users.doc(userId).collection(kUsersBharatIDsCollectionId).withConverter<BharatIdModel>(
+    //       fromFirestore: (snapshot, _) =>
+    //           BharatIdModel.fromMap(snapshot.data()!),
+    //       toFirestore: (ids, _) => ids.toMap(),
+    //     ).get().then((value) {
+    //   print("list value >>> ${value.docs.first.data()}");
+    // })}");
     return users
         .doc(userId)
-        .collection(kUsersBharatIDsCollectionId)
+        .collection(kUsersBharatIDsCollectionName)
         .withConverter<BharatIdModel>(
           fromFirestore: (snapshot, _) =>
               BharatIdModel.fromMap(snapshot.data()!),

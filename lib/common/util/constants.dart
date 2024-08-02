@@ -6,7 +6,7 @@ const String kDefaultGroupAvatarUrl =
 const String kUsersCollectionId = "users";
 
 /// Sub collection unders users `i.e users/{userId}/chats`
-const String kUsersBharatIDsCollectionId = "bharat_ids";
+const String kUsersBharatIDsCollectionName = "bharat_ids";
 const String kChatsSubCollectionId = "chats";
 const String kMessagesSubCollectionId = "messages";
 const String kStatusCollectionId = "status";

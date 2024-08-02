@@ -6,9 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 class QrWidget extends StatelessWidget {
-  const QrWidget({super.key, required this.qrData});
+  const QrWidget(
+      {super.key,
+      required this.qrData,
+      this.bharatIdLabel = "",
+      required this.qrVersion});
 
   final String qrData;
+  final String bharatIdLabel;
+  final int qrVersion;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +30,8 @@ class QrWidget extends StatelessWidget {
                   eyeShape: QrEyeShape.circle,
                   color: kPrimaryColor.withOpacity(.6)),
               data: qrData,
-              version: 10,
+              version: qrVersion,
+              // 1 to 40
               size: size + 300,
               gapless: false,
               // embeddedImage: Image.asset("assets/img/bmlogo.png").image,
@@ -32,16 +39,28 @@ class QrWidget extends StatelessWidget {
               //   size: Size(80, 80),
               // ),
             ),
-            const SizedBox(height: 6),
-            Text("ID: AA/PA/VO/DL/PP/RC",
-                style: AppStyles.titleTextStyle(context)),
+            const SizedBox(height: 12),
+            Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        spreadRadius: 1,
+                        color: Colors.grey.withOpacity(.6),
+                        offset: const Offset(0, 2),
+                        blurRadius: 2,
+                      )
+                    ],
+                    color: kPrimaryColor.withOpacity(.6),
+                    borderRadius: BorderRadius.circular(22)),
+                child: Text("ID: $bharatIdLabel",
+                    style: AppStyles.titleTextStyle(context)
+                        .copyWith(color: kLightBgColor))),
             const SizedBox(height: 12),
             Row(
               children: [
-                Icon(
-                  CupertinoIcons.check_mark_circled_solid,
-                  color: Colors.green,
-                ),
+                const Icon(CupertinoIcons.check_mark_circled_solid,
+                    color: Colors.green),
                 const SizedBox(width: 6),
                 Text("User Verified",
                     style: AppStyles.titleTextStyle(context).copyWith()),

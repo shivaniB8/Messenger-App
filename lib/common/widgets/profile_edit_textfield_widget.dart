@@ -9,10 +9,12 @@ class ProfileEditTextFieldWidget extends StatelessWidget {
       required this.title,
       required this.isDark,
       required this.controller,
-      this.onSave});
+      this.onSave,
+      this.showSmiley = false});
 
   final String title;
   final bool isDark;
+  final bool showSmiley;
   final TextEditingController controller;
   final Function()? onSave;
 
@@ -41,7 +43,7 @@ class ProfileEditTextFieldWidget extends StatelessWidget {
                     border: Border(bottom: BorderSide(color: kPrimaryColor))),
               )),
               const SizedBox(width: 12),
-              const Icon(CupertinoIcons.smiley)
+              if (showSmiley) const Icon(CupertinoIcons.smiley)
             ],
           ),
           const SizedBox(height: 8),
