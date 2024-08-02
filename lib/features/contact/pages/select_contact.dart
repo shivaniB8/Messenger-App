@@ -128,10 +128,13 @@ class _SelectContactPageState extends ConsumerState<SelectContactPage> {
   void goToContact(WidgetRef ref, Contact con, BuildContext context) {
     ref.read(selectContactProvider).findContact(
           selected: con,
-          contactNotFound: () => showSnackbar(
-            context,
-            "This contact is not registered on $kAppName",
-          ),
+          contactNotFound: () {
+            log("contact not registered :: ${con}");
+            showSnackbar(
+              context,
+              "This contact is not registered on $kAppName",
+            );
+          },
           contactFound: (user) {
             Navigator.pushReplacementNamed(context, PageRouter.chat,
                 arguments: {

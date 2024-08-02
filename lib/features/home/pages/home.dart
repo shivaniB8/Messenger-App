@@ -13,7 +13,6 @@ import 'package:chatapp_two/features/call/widgets/call_list.dart';
 import 'package:chatapp_two/features/home/widgets/chat_list.dart';
 import 'package:chatapp_two/features/status/widgets/status_list.dart';
 import 'package:chatapp_two/router.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -98,8 +97,11 @@ class _HomePageState extends ConsumerState<HomePage>
 
             IconButton(
                 onPressed: () async {
-                  String? cameraScanResult = await scanner.scan();
-                  log("cameraScanResult > $cameraScanResult");
+                  // String? cameraScanResult = await scanner.scan();
+
+                  Navigator.of(context).pushNamed(PageRouter.qrViewScreen);
+
+                  // log("cameraScanResult > $cameraScanResult");
                   // Map<String, dynamic> mapScanResult =
                   //     jsonDecode(cameraScanResult ?? "");
                   // log("cameraScanResult > $cameraScanResult");

@@ -4,6 +4,7 @@ import 'package:chatapp_two/features/ids/screens/my_ids.dart';
 import 'package:chatapp_two/features/profile/screens/profile_screen.dart';
 import 'package:chatapp_two/features/profile/screens/user_profile_screen.dart';
 import 'package:chatapp_two/features/qr/screens/qr_details_screen.dart';
+import 'package:chatapp_two/features/qr/screens/qr_view.dart';
 import 'package:flutter/material.dart';
 import 'package:chatapp_two/common/models/call.dart';
 import 'package:chatapp_two/common/models/status.dart';
@@ -20,6 +21,7 @@ import 'package:chatapp_two/features/status/pages/status_image_preview.dart';
 import 'package:chatapp_two/features/status/pages/status_view.dart';
 import 'package:chatapp_two/features/status/pages/status_writer.dart';
 import 'package:chatapp_two/features/welcome/pages/welcome.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class PageRouter {
   static const String welcome = '/welcome';
@@ -38,6 +40,7 @@ class PageRouter {
   static const String userProfile = "/user-profile";
   static const String qrDetailsScreen = "/qr-details-screen";
   static const String idsListScreen = "/ids-list-screen";
+  static const String qrViewScreen = "/qr_view";
 
   static Route<Widget> generateRoutes(RouteSettings settings) {
     AppLogger.getLogger((PageRouter).toString())
@@ -106,6 +109,9 @@ class PageRouter {
             resident: args['resident'] as String,
             gender: args['gender'] as String,
             documents: args['documents'] as List<String>));
+      case qrViewScreen:
+        // final args = settings.arguments as Map<String, dynamic>;
+        return _createRoute(const QRViewExample());
 
       default:
         return _createRoute(UnknownRoutePage(targetRoute: settings.name!));

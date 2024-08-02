@@ -144,7 +144,7 @@ class UserRepository {
           .doc(bharatUuid)
           .set(BharatIdModel(
                   id: bharatUuid,
-                  bharatId: "${name.trim()}@bid".toLowerCase(),
+                  bharatId: "${name.trim()}@bharatmessenger".toLowerCase(),
                   qr: "",
                   type: 1,
                   status: 1)

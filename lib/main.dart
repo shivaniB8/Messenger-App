@@ -47,7 +47,7 @@ void main() async {
 class App extends ConsumerWidget {
   final GlobalKey<NavigatorState> navigatorKey;
 
-  const App({required this.navigatorKey, Key? key}) : super(key: key);
+  const App({required this.navigatorKey, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
