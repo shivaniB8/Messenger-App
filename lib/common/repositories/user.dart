@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:chatapp_two/common/models/bharat_id.dart';
-import 'package:chatapp_two/features/ids/controller/ids_controller.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -135,16 +134,17 @@ class UserRepository {
         phoneNumber: userId.phoneNumber,
         isOnline: true,
       );
-      _db.collection("users").doc(newUser.uid).set(newUser.toMap());
+      _db.collection(kUsersCollectionId).doc(newUser.uid).set(newUser.toMap());
       final bharatUuid = const Uuid().v4();
       _db
-          .collection("users")
+          .collection(kUsersCollectionId)
           .doc(newUser.uid)
           .collection(kUsersBharatIDsCollectionName)
           .doc(bharatUuid)
           .set(BharatIdModel(
                   id: bharatUuid,
-                  bharatId: "${name.trim()}@bharatmessenger".toLowerCase(),
+                  bharatId: "${name.trim().replaceAll(" ", "")}@bharatmessenger"
+                      .toLowerCase(),
                   qr: "",
                   type: 1,
                   status: 1)

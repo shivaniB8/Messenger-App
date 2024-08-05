@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chatapp_two/common/theme.dart';
@@ -6,13 +8,12 @@ import 'package:chatapp_two/common/widgets/primary_button.dart';
 import 'package:chatapp_two/router.dart';
 
 class WelcomePage extends ConsumerWidget {
-  const WelcomePage({
-    super.key,
-  });
+  const WelcomePage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isDarkMode = ref.watch(themeNotifierProvider) == Brightness.dark;
+    log("is dark? $isDarkMode");
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -45,7 +46,8 @@ class WelcomePage extends ConsumerWidget {
                         text: "Privacy Policy. ",
                         style: TextStyle(color: kTextHighlightColor),
                       ),
-                      TextSpan(text: "Tap \"Agree and continue\" to accept the "),
+                      TextSpan(
+                          text: "Tap \"Agree and continue\" to accept the "),
                       TextSpan(
                         text: "Terms of Service.",
                         style: TextStyle(color: kTextHighlightColor),
@@ -59,7 +61,8 @@ class WelcomePage extends ConsumerWidget {
                   width: 320,
                   child: PrimaryButton(
                     title: "AGREE AND CONTINUE",
-                    onPressed: () => Navigator.pushNamed(context, PageRouter.login),
+                    onPressed: () =>
+                        Navigator.pushNamed(context, PageRouter.login),
                   ),
                 ),
                 const Spacer(flex: 2),

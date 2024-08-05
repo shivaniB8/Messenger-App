@@ -21,7 +21,6 @@ import 'package:chatapp_two/features/status/pages/status_image_preview.dart';
 import 'package:chatapp_two/features/status/pages/status_view.dart';
 import 'package:chatapp_two/features/status/pages/status_writer.dart';
 import 'package:chatapp_two/features/welcome/pages/welcome.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class PageRouter {
   static const String welcome = '/welcome';
@@ -92,6 +91,7 @@ class PageRouter {
         final args = settings.arguments as Map<String, dynamic>;
         return _createRoute(ProfileScreen(
           mobileNo: args['phoneNumber'] as String,
+          bharatId: args['bharatId'] as String,
           roomAvatar: args['avatarImage'] as String,
           userName: args['userName'] as String,
         ));
@@ -102,19 +102,19 @@ class PageRouter {
         // final args = settings.arguments as Map<String, dynamic>;
         return _createRoute(const MyIdsScreen());
 
-      case qrDetailsScreen:
-        final args = settings.arguments as Map<String, dynamic>;
-        return _createRoute(QrDetailsScreen(
-            name: args['name'] as String,
-            resident: args['resident'] as String,
-            gender: args['gender'] as String,
-            documents: args['documents'] as List<String>));
-      case qrViewScreen:
-        // final args = settings.arguments as Map<String, dynamic>;
-        return _createRoute(const QRViewExample());
+      // case qrDetailsScreen:
+      //   final args = settings.arguments as Map<String, dynamic>;
+      //   return _createRoute(QrDetailsScreen(
+      //       name: args['name'] as String,
+      //       resident: args['resident'] as String,
+      //       gender: args['gender'] as String,
+      //       documents: args['documents'] as List<String>));
+      // case qrViewScreen:
+      //   // final args = settings.arguments as Map<String, dynamic>;
+      //   return _createRoute(const QRViewExample());
 
       default:
-        return _createRoute(UnknownRoutePage(targetRoute: settings.name!));
+        return _createRoute(const HomePage());
     }
   }
 

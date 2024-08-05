@@ -5,12 +5,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chatapp_two/common/util/constants.dart';
 
 class ProfileAppBar extends ConsumerWidget implements PreferredSizeWidget {
-  const ProfileAppBar(this.roomAvatar, this.userName, this.mobileNo,
+  const ProfileAppBar(
+      this.roomAvatar, this.userName, this.mobileNo, this.bharatId,
       {super.key});
 
   final String roomAvatar;
   final String userName;
   final String mobileNo;
+  final String bharatId;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -49,6 +51,12 @@ class ProfileAppBar extends ConsumerWidget implements PreferredSizeWidget {
                   Text(userName, style: TextStyle(fontSize: size / 50)),
                   Text(
                     mobileNo,
+                    style:
+                        TextStyle(fontSize: size / 80, color: Colors.white70),
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    bharatId,
                     style:
                         TextStyle(fontSize: size / 80, color: Colors.white70),
                   ),

@@ -1,5 +1,6 @@
 import 'package:chatapp_two/common/res/app_functions.dart';
 import 'package:chatapp_two/common/theme.dart';
+import 'package:chatapp_two/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:chatapp_two/common/util/constants.dart';
@@ -13,14 +14,14 @@ class MyIdsAppBar extends ConsumerWidget implements PreferredSizeWidget {
     return AppBar(
       leading: IconButton(
         onPressed: () {
-          Navigator.pop(context);
+          Navigator.pushNamedAndRemoveUntil(
+              context, PageRouter.home, (route) => false);
         },
         icon: const Icon(Icons.arrow_back),
         splashRadius: kDefaultSplashRadius,
       ),
       toolbarHeight: kToolbarHeight,
-      title: Text("My Bharat IDs",
-          style: TextStyle(fontSize: size - 4)),
+      title: Text("My Bharat IDs", style: TextStyle(fontSize: size - 4)),
       actions: [
         // Align(
         //   alignment: Alignment.topRight,

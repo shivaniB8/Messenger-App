@@ -43,12 +43,16 @@ class _MyIdsScreenState extends ConsumerState<MyIdsScreen> {
       floatingActionButton: FloatingActionButton.extended(
         label: const Text("Add New ID"),
         onPressed: () async {
+          // _db
+          //     .collection("users")
+          //     .doc(newUser.uid)
+          //     .collection(kUsersBharatIDsCollectionName).get()
           // var s = await ref
           //     .read(userRepositoryProvider)
           //     .bharatIds(getUserId(ref))
-          //     .doc()
-          //     .id;
-          // log("message :>>: $s");
+          //     .get();
+          // log("message :>>: ${s.docs[0]}");
+
           ///
           AppBottomSheet.show(
               isDismissible: true,
@@ -145,13 +149,14 @@ class _MyIdsScreenState extends ConsumerState<MyIdsScreen> {
           ),
           IconButton(
               onPressed: () {
+                String activeUserId = getUserId(ref);
                 AppBottomSheet.show(
                     isDismissible: true,
                     backgroundColor: kLightBgColor,
                     context: context,
                     child: QrWidget(
-                      qrData: id.toString(),
-                      qrVersion: 2,
+                      qrData: "$activeUserId $id",
+                      qrVersion: 5,
                       bharatIdLabel: id,
                     ));
               },

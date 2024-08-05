@@ -68,7 +68,8 @@ dependencies:
   equatable: ^2.0.5
   flutter_bloc: ^8.1.6
   bloc: ^8.1.4
-  qr_code_scanner: ^1.0.1
+#  qr_code_scanner: ^1.0.1
+  qrscan: ^0.3.3
 
 dev_dependencies:
   flutter_test:

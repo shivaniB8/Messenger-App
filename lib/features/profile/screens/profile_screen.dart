@@ -7,17 +7,19 @@ class ProfileScreen extends ConsumerWidget {
   const ProfileScreen(
       {required this.roomAvatar,
       required this.userName,
+      required this.bharatId,
       required this.mobileNo,
       super.key});
 
   final String roomAvatar;
   final String userName;
+  final String bharatId;
   final String mobileNo;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return ProfileScaffold(
-        appBar: ProfileAppBar(roomAvatar, userName, mobileNo),
+        appBar: ProfileAppBar(roomAvatar, userName, mobileNo, bharatId),
         body: Container());
   }
 }

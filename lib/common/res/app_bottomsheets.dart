@@ -6,6 +6,7 @@ class AppBottomSheet {
           {required BuildContext context,
           required Widget child,
           required bool isDismissible,
+          Function(dynamic v)? then,
           required Color backgroundColor}) =>
       showModalBottomSheet(
           isDismissible: isDismissible,
@@ -22,5 +23,5 @@ class AppBottomSheet {
                 padding: EdgeInsets.only(
                     bottom: MediaQuery.of(context).viewInsets.bottom),
                 child: Material(color: Colors.transparent, child: child));
-          });
+          }).then((v) => then!(v));
 }

@@ -11,7 +11,8 @@ class ThemeNotifier extends StateNotifier<Brightness> {
   ThemeNotifier() : super(_systemBrightness);
 
   static Brightness get _systemBrightness {
-    return SchedulerBinding.instance.platformDispatcher.platformBrightness;
+    return Brightness.light;
+    // return SchedulerBinding.instance.platformDispatcher.platformBrightness;
   }
 
   void toggle() {

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:chatapp_two/common/models/bharat_id.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,11 +34,10 @@ class SelectContactController {
     required this.contactRepository,
   });
 
-  void findContact({
-    required Contact selected,
-    required VoidCallback contactNotFound,
-    required Function(UserModel user) contactFound,
-  }) async {
+  void findContact(
+      {required Contact selected,
+      required VoidCallback contactNotFound,
+      required Function(UserModel user) contactFound}) async {
     AppLogger.getLogger('Contact')
         .i("Before replace contact with phone: ${selected.phones[0].number}");
     String phone = selected.phones[0].normalizedNumber

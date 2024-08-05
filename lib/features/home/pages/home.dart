@@ -1,8 +1,9 @@
-import 'dart:convert';
 import 'dart:developer';
 
+import 'package:chatapp_two/common/res/app_bottomsheets.dart';
 import 'package:chatapp_two/common/res/app_functions.dart';
 import 'package:chatapp_two/common/res/app_styles.dart';
+import 'package:chatapp_two/common/widgets/bharat_ids_list_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,6 +14,7 @@ import 'package:chatapp_two/features/call/widgets/call_list.dart';
 import 'package:chatapp_two/features/home/widgets/chat_list.dart';
 import 'package:chatapp_two/features/status/widgets/status_list.dart';
 import 'package:chatapp_two/router.dart';
+import 'package:qrscan/qrscan.dart' as scanner;
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -41,157 +43,174 @@ class _HomePageState extends ConsumerState<HomePage>
   @override
   Widget build(BuildContext context) {
     final themeMode = ref.watch(themeNotifierProvider);
-    return DefaultTabController(
-      length: controller.length,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(kAppName.split(" ").first,
-                  style: TextStyle(
-                      height: 1,
-                      fontSize: (MediaQuery.of(context).size.height +
-                              MediaQuery.of(context).size.width) /
-                          60)),
-              Text(kAppName.split(" ").last,
-                  style: TextStyle(
-                      height: 1,
-                      fontSize: (MediaQuery.of(context).size.height +
-                              MediaQuery.of(context).size.width) /
-                          105)),
-            ],
-          ),
-          bottom: TabBar(
-            controller: controller,
-            indicatorColor: Colors.white,
-            // themeMode == Brightness.light ? Colors.white : kPrimaryColor,
-            labelColor: Colors.white,
-            // themeMode == Brightness.light ? Colors.white : kPrimaryColor,
-            unselectedLabelColor: kUnselectedLabelColor,
-            indicatorWeight: 4,
-            tabs: const [
-              Tab(text: "Chat"),
-              Tab(text: "Status"),
-              Tab(text: "Calls"),
-            ],
-          ),
-          actions: [
-            // theme switcher
-            IconButton(
-              splashRadius: kDefaultSplashRadius,
-              onPressed: () {
-                ref.read(themeNotifierProvider.notifier).toggle();
-              },
-              icon: themeMode == Brightness.light
-                  ? Icon(
-                      Icons.nightlight_outlined,
-                      color: kAppBarActionIconColor,
-                    )
-                  : Icon(
-                      Icons.wb_sunny_outlined,
-                      color: kAppBarActionIconColor,
-                    ),
+    return PopScope(
+      canPop: false,
+      child: DefaultTabController(
+        length: controller.length,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(kAppName.split(" ").first,
+                    style: TextStyle(
+                        height: 1,
+                        fontSize: (MediaQuery.of(context).size.height +
+                                MediaQuery.of(context).size.width) /
+                            60)),
+                Text(kAppName.split(" ").last,
+                    style: TextStyle(
+                        height: 1,
+                        fontSize: (MediaQuery.of(context).size.height +
+                                MediaQuery.of(context).size.width) /
+                            105)),
+              ],
             ),
+            bottom: TabBar(
+              controller: controller,
+              indicatorColor: Colors.white,
+              // themeMode == Brightness.light ? Colors.white : kPrimaryColor,
+              labelColor: Colors.white,
+              // themeMode == Brightness.light ? Colors.white : kPrimaryColor,
+              unselectedLabelColor: kUnselectedLabelColor,
+              indicatorWeight: 4,
+              tabs: const [
+                Tab(text: "Chat"),
+                Tab(text: "Status"),
+                Tab(text: "Calls"),
+              ],
+            ),
+            actions: [
+              // theme switcher
+              // IconButton(
+              //   splashRadius: kDefaultSplashRadius,
+              //   onPressed: () {
+              //     ref.read(themeNotifierProvider.notifier).toggle();
+              //   },
+              //   icon: themeMode == Brightness.light
+              //       ? Icon(
+              //           Icons.nightlight_outlined,
+              //           color: kAppBarActionIconColor,
+              //         )
+              //       : Icon(
+              //           Icons.wb_sunny_outlined,
+              //           color: kAppBarActionIconColor,
+              //         ),
+              // ),
 
-            IconButton(
-                onPressed: () async {
-                  // String? cameraScanResult = await scanner.scan();
+              IconButton(
+                  onPressed: () async {
+                    await scanner.scan().then((value) {
+                      log("scanner opponent data > $value");
 
-                  Navigator.of(context).pushNamed(PageRouter.qrViewScreen);
+                      /// now select bharat id ...
+                      AppBottomSheet.show(
+                          context: context,
+                          child:
+                              BharatIdsListWidget(callback: (String bharatid) {
+                            /// got the selected user's bharat id...
+                            Navigator.pushNamed(context, PageRouter.chat);
+                          }),
+                          isDismissible: false,
+                          backgroundColor: kLightBgColor);
+                    });
+                    // log("cameraScanResult > $cameraScanResult");
 
-                  // log("cameraScanResult > $cameraScanResult");
-                  // Map<String, dynamic> mapScanResult =
-                  //     jsonDecode(cameraScanResult ?? "");
-                  // log("cameraScanResult > $cameraScanResult");
-                  // Navigator.pushNamed(context, PageRouter.qrDetailsScreen,
-                  //     arguments: {
-                  //       "name": mapScanResult["name"],
-                  //       "resident": mapScanResult["resident"],
-                  //       "gender": mapScanResult["gender"],
-                  //       "documents": mapScanResult["documents"],
-                  //     });
+                    // Navigator.of(context).pushNamed(PageRouter.qrViewScreen);
+
+                    // log("cameraScanResult > $cameraScanResult");
+                    // Map<String, dynamic> mapScanResult =
+                    //     jsonDecode(cameraScanResult ?? "");
+                    // log("cameraScanResult > $cameraScanResult");
+                    // Navigator.pushNamed(context, PageRouter.qrDetailsScreen,
+                    //     arguments: {
+                    //       "name": mapScanResult["name"],
+                    //       "resident": mapScanResult["resident"],
+                    //       "gender": mapScanResult["gender"],
+                    //       "documents": mapScanResult["documents"],
+                    //     });
+                  },
+                  icon: const Icon(CupertinoIcons.qrcode_viewfinder)),
+
+              IconButton(
+                splashRadius: kDefaultSplashRadius,
+                onPressed: () {
+                  Navigator.pushNamed(context, PageRouter.idsListScreen);
                 },
-                icon: const Icon(CupertinoIcons.qrcode_viewfinder)),
-
-            IconButton(
-              splashRadius: kDefaultSplashRadius,
-              onPressed: () {
-                Navigator.pushNamed(context, PageRouter.idsListScreen);
-              },
-              icon: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      border: Border.all(
-                          color: Colors.white54,
-                          strokeAlign: BorderSide.strokeAlignOutside)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text("ID",
-                          style: AppStyles.titleTextStyle(context)
-                              .copyWith(color: kAppBarActionIconColor)),
-                      Text("s",
-                          style: AppStyles.titleTextStyle(context).copyWith(
-                              fontSize:
-                                  appSize(context: context, unit: 10) / 20,
-                              color: kAppBarActionIconColor)),
-                    ],
-                  )),
-            ),
-            IconButton(
-              splashRadius: kDefaultSplashRadius,
-              onPressed: () {},
-              color: kAppBarActionIconColor,
-              icon: Icon(
-                Icons.search,
-                color: kAppBarActionIconColor,
+                icon: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(
+                            color: Colors.white54,
+                            strokeAlign: BorderSide.strokeAlignOutside)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text("ID",
+                            style: AppStyles.titleTextStyle(context)
+                                .copyWith(color: kAppBarActionIconColor)),
+                        Text("s",
+                            style: AppStyles.titleTextStyle(context).copyWith(
+                                fontSize:
+                                    appSize(context: context, unit: 10) / 20,
+                                color: kAppBarActionIconColor)),
+                      ],
+                    )),
               ),
-            ),
-            PopupMenuButton(
-              splashRadius: kDefaultSplashRadius,
-              icon: Icon(
-                Icons.more_vert,
+              IconButton(
+                splashRadius: kDefaultSplashRadius,
+                onPressed: () {},
                 color: kAppBarActionIconColor,
+                icon: Icon(
+                  Icons.search,
+                  color: kAppBarActionIconColor,
+                ),
               ),
-              itemBuilder: (context) {
-                return [
-                  PopupMenuItem(
-                    child: const Text(
-                      "New Group",
+              PopupMenuButton(
+                splashRadius: kDefaultSplashRadius,
+                icon: Icon(
+                  Icons.more_vert,
+                  color: kAppBarActionIconColor,
+                ),
+                itemBuilder: (context) {
+                  return [
+                    PopupMenuItem(
+                      child: const Text(
+                        "New Group",
+                      ),
+                      onTap: () {
+                        // wait for the menu to close before navigating
+                        Future(() => Navigator.pushNamed(
+                            context, PageRouter.createGroup));
+                      },
                     ),
-                    onTap: () {
-                      // wait for the menu to close before navigating
-                      Future(() =>
-                          Navigator.pushNamed(context, PageRouter.createGroup));
-                    },
-                  ),
-                  PopupMenuItem(
-                    child: const Text("Profile"),
-                    onTap: () {
-                      // wait for the menu to close before navigating
-                      Future(() =>
-                          Navigator.pushNamed(context, PageRouter.userProfile));
-                    },
-                  ),
-                ];
-              },
-            ),
-          ],
+                    PopupMenuItem(
+                      child: const Text("Profile"),
+                      onTap: () {
+                        // wait for the menu to close before navigating
+                        Future(() => Navigator.pushNamed(
+                            context, PageRouter.userProfile));
+                      },
+                    ),
+                  ];
+                },
+              ),
+            ],
+          ),
+          body: TabBarView(
+            controller: controller,
+            children:const [
+               ChatList(),
+               StatusList(),
+               CallList(),
+            ],
+          ),
+          floatingActionButton: floatingWidgets,
         ),
-        body: TabBarView(
-          controller: controller,
-          children: const [
-            ChatList(),
-            StatusList(),
-            CallList(),
-          ],
-        ),
-        floatingActionButton: floatingWidgets,
       ),
     );
   }
