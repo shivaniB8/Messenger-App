@@ -11,9 +11,7 @@ class QrDetailsWidget extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text("Bharat ID: ${data?.split("/")}"),
-        ],
+        children: [Text("Bharat ID: ${data?.split("/")}")],
       ),
     );
   }
